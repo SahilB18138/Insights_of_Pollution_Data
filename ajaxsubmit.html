@@ -1,0 +1,103 @@
+<html>
+
+<head>
+    <script>
+        function getData(payload) {
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("txtHint").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("POST", "extract.php", true);
+            xmlhttp.send(payload);
+        }
+
+        function myfunction() {
+            var form = document.querySelector('form');
+            var data = new FormData(form);
+            getData(data)
+        }
+    </script>
+    <style>
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        input[type=date] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        input[type=button] {
+            width: 100%;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="f1">
+            From:
+            <input type="date" name="from"> To:
+            <input type="date" name="to"> Attribute:
+            <select name="par" id="parameter">
+                <option value="t">Temperature</option>
+                <option value="p">Pressure</option>
+                <option value="h">Humidity</option>
+                <option value="co">CO conc.</option>
+                <option value="no2">NO2 conc.</option>
+                <option value="o3">Ozone conc.</option>
+                <option value="pm_10">PM lte 10micro</option>
+                <option value="pm_1_0">PM lte 1micro</option>
+                <option value="pm_2_5">PM lte 2.5micro</option>
+                <option value="so2">SO2 conc.</option>
+                <option value="ws">Wind speed</option>
+            </select>
+            <input type="button" onclick="myfunction()" value="Submit Query">
+            <br>
+            <br>
+            <input type="checkbox" name="choices[]" value="Maximum"> Maximum
+            <input type="checkbox" name="choices[]" value="Minimum"> Minimum
+            <input type="checkbox" name="choices[]" value="Average"> Average
+        </form>
+    </div>
+    <br>
+    <div id="txtHint"><b>Answer will be shown here</b></div>
+
+</body>
+
+</html>
